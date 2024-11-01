@@ -1,18 +1,29 @@
-// import express from "express";
+import express from "express";
 
-// const app = express();
-// const port = 3535;
+const app = express();
+const port = 3535;
 
-// app.listen(port, () => {
-//   console.log("server ajillaa");
-// });
+app.listen(port, () => {
+  console.log("server ajillaa");
+});
 
-var http = require("http");
+// Массивт хадгалагдах өгөгдөл
+let dataArray = [];
 
-http
-  .createServer((req, res) => {
-    res.write("hello world");
-    res.end("server ajillaa");
-    console.log("server ajillaa");
-  })
-  .listen(8800);
+// JSON өгөгдлийг боловсруулж болохоор тохируулна
+app.use(express.json());
+
+// `POST` хүсэлтээр өгөгдөл нэмэх
+app.post("/add-data", (req, res) => {
+  const newData = req.body; // Хүсэлтээр ирсэн өгөгдөл
+  dataArray.push(newData); // Массивт өгөгдөл нэмэх
+
+  res.status(201).json({
+    message: "Data added successfully!",
+    dataArray,
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
